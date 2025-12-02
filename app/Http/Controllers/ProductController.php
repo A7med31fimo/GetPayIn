@@ -37,4 +37,19 @@ class ProductController extends Controller
             'total_stock' => $freshProduct->total_stock,
         ]);
     }
+
+
+    public function create(Product $p): JsonResponse
+    {
+
+        $product = new Product();
+        $product->name = $p->name;
+        $product->price = $p->price;
+        $product->available_stock = $p->available_stock;
+        $product->total_stock = $p->total_stock;
+        $product->save();
+        return response()->json([
+            'message' => 'Create product endpoint',
+        ]);
+    }
 }

@@ -20,11 +20,11 @@ class HoldController extends Controller
     {
         $validated = $request->validate([
             'product_id' => 'required|integer|exists:products,id',
-            'qty' => 'required|integer|min:1',
+            'quantity' => 'required|integer|min:1',
         ]);
 
         $productId = $validated['product_id'];
-        $quantity = $validated['qty'];
+        $quantity = $validated['quantity'];
 
         try {
             $hold = DB::transaction(function () use ($productId, $quantity) {

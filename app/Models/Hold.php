@@ -6,7 +6,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class Hold extends Model
 {
@@ -65,7 +65,7 @@ class Hold extends Model
         $count = 0;
         
         foreach ($expiredHolds as $hold) {
-            \DB::transaction(function () use ($hold) {
+            DB::transaction(function () use ($hold) {
                 $hold->product->releaseStock($hold->quantity);
                 $hold->update(['consumed' => true]);
             });

@@ -6,6 +6,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\DB;
 
 class Product extends Model
 {
@@ -14,14 +15,14 @@ class Product extends Model
         'price',
         'total_stock',
         'reserved_stock',
-        'version',
+        'count',
     ];
 
     protected $casts = [
         'price' => 'decimal:2',
         'total_stock' => 'integer',
         'reserved_stock' => 'integer',
-        'version' => 'integer',
+        'count' => 'integer',
     ];
 
     public function holds(): HasMany
@@ -49,18 +50,18 @@ class Product extends Model
      */
     public function reserveStock(int $quantity): void
     {
-        $currentVersion = $this->version;
+        $currentCounter = $this->count;
         
         $updated = self::where('id', $this->id)
-            ->where('version', $currentVersion)
-            ->where('total_stock', '>=', \DB::raw('reserved_stock + ' . $quantity))
+            ->where('count', $currentCounter)
+            ->where('total_stock', '>=', DB::raw('reserved_stock + ' . $quantity))
             ->update([
-                'reserved_stock' => \DB::raw('reserved_stock + ' . $quantity),
-                'version' => \DB::raw('version + 1'),
+                'reserved_stock' => DB::raw('reserved_stock + ' . $quantity),
+                'count' => DB::raw('count + 1'),
             ]);
 
         if ($updated === 0) {
-            // Either version changed (concurrent update) or insufficient stock
+            // Either count changed (concurrent update) or insufficient stock
             $fresh = self::lockForUpdate()->find($this->id);
             
             if ($fresh->available_stock < $quantity) {
@@ -80,8 +81,8 @@ class Product extends Model
     {
         self::where('id', $this->id)
             ->update([
-                'reserved_stock' => \DB::raw('GREATEST(0, reserved_stock - ' . $quantity . ')'),
-                'version' => \DB::raw('version + 1'),
+                'reserved_stock' => DB::raw('GREATEST(0, reserved_stock - ' . $quantity . ')'),
+                'count' => DB::raw('count + 1'),
             ]);
 
         $this->refresh();
@@ -94,9 +95,9 @@ class Product extends Model
     {
         self::where('id', $this->id)
             ->update([
-                'total_stock' => \DB::raw('total_stock - ' . $quantity),
-                'reserved_stock' => \DB::raw('GREATEST(0, reserved_stock - ' . $quantity . ')'),
-                'version' => \DB::raw('version + 1'),
+                'total_stock' => DB::raw('total_stock - ' . $quantity),
+                'reserved_stock' => DB::raw('GREATEST(0, reserved_stock - ' . $quantity . ')'),
+                'count' => DB::raw('count + 1'),
             ]);
 
         $this->refresh();

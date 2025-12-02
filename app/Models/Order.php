@@ -6,6 +6,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\DB;
 
 class Order extends Model
 {
@@ -40,8 +41,7 @@ class Order extends Model
         if ($this->status !== 'pending') {
             return; // Already processed
         }
-
-        \DB::transaction(function () {
+        DB::transaction(function () {
             $this->update(['status' => 'paid']);
             $this->product->commitStock($this->quantity);
         });
@@ -56,7 +56,7 @@ class Order extends Model
             return; // Already processed
         }
 
-        \DB::transaction(function () {
+        DB::transaction(function () {
             $this->update(['status' => 'cancelled']);
             $this->product->releaseStock($this->quantity);
         });

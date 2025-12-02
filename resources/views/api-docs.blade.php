@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Flash Sale API Docs</title>
@@ -44,7 +45,7 @@
 
         .sidebar a:hover {
             background: #333;
-            border-left: 3px solid #61affe; 
+            border-left: 3px solid #61affe;
             color: #fff;
         }
 
@@ -66,7 +67,7 @@
             margin-top: 20px;
             padding: 15px;
             border-left: 6px solid #61affe;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
         }
 
         .method {
@@ -77,8 +78,13 @@
             color: white;
         }
 
-        .GET  { background: #61affe; }
-        .POST { background: #49cc90; }
+        .GET {
+            background: #61affe;
+        }
+
+        .POST {
+            background: #49cc90;
+        }
 
         .endpoint-url {
             font-size: 16px;
@@ -139,39 +145,39 @@
 
 <body>
 
-<div class="swagger-container">
+    <div class="swagger-container">
 
-    <!-- ========== SIDEBAR ========== -->
-    <div class="sidebar">
-        <h2>API Docs</h2>
+        <!-- ========== SIDEBAR ========== -->
+        <div class="sidebar">
+            <h2>API Docs</h2>
 
-        <a href="#products">GET Product</a>
-        <a href="#holds">Create Hold</a>
-        <a href="#orders">Create Order</a>
-        <a href="#webhook">Payment Webhook</a>
-    </div>
-
-
-    <!-- ========== CONTENT ========== -->
-    <div class="content">
-
-        <h1>Flash Sale API</h1>
-        <p style="color:#555;">This API handles high-concurrency flash sale operations with holds, orders, and payment webhooks.</p>
+            <a href="#products">GET Product</a>
+            <a href="#holds">Create Hold</a>
+            <a href="#orders">Create Order</a>
+            <a href="#webhook">Payment Webhook</a>
+        </div>
 
 
-        <!-- ======================= PRODUCT ======================= -->
-        <div id="products" class="endpoint-box">
-            <span class="method GET">GET</span>
-            <span class="endpoint-url">/api/products/{id}</span>
+        <!-- ========== CONTENT ========== -->
+        <div class="content">
 
-            <p class="summary">Retrieve a product with stock & reserved stock.</p>
+            <h1>Flash Sale API</h1>
+            <p style="color:#555;">This API handles high-concurrency flash sale operations with holds, orders, and payment webhooks.</p>
 
-            <button class="copy-btn">Copy</button>
-            <pre><code class="json">
+
+            <!-- ======================= PRODUCT ======================= -->
+            <div id="products" class="endpoint-box">
+                <span class="method GET">GET</span>
+                <span class="endpoint-url">/api/products/{id}</span>
+
+                <p class="summary">Retrieve a product with stock & reserved stock.</p>
+
+                <button class="copy-btn">Copy</button>
+                <pre><code class="json">
 GET /api/products/1
             </code></pre>
 
-            <pre><code class="json">
+                <pre><code class="json">
 {
    "id": 1,
    "name": "Product A",
@@ -180,25 +186,25 @@ GET /api/products/1
    "reserved_stock": 10
 }
             </code></pre>
-        </div>
+            </div>
 
 
 
-        <!-- ======================= HOLDS ======================= -->
-        <div id="holds" class="endpoint-box">
-            <span class="method POST">POST</span>
-            <span class="endpoint-url">/api/holds</span>
+            <!-- ======================= HOLDS ======================= -->
+            <div id="holds" class="endpoint-box">
+                <span class="method POST">POST</span>
+                <span class="endpoint-url">/api/holds</span>
 
-            <p class="summary">Create a stock hold (short 30-second reservation).</p>
+                <p class="summary">Create a stock hold (short 30-second reservation).</p>
 
-            <button class="copy-btn">Copy</button>
-            <pre><code class="bash">
+                <button class="copy-btn">Copy</button>
+                <pre><code class="bash">
 curl -X POST https://example.com/api/holds \
 -H "Content-Type: application/json" \
 -d '{ "product_id":1, "quantity":2 }'
             </code></pre>
 
-            <pre><code class="json">
+                <pre><code class="json">
 {
   "id": 5,
   "product_id": 1,
@@ -206,23 +212,23 @@ curl -X POST https://example.com/api/holds \
   "expires_at": "2025-11-30T12:00:00Z"
 }
             </code></pre>
-        </div>
+            </div>
 
 
 
-        <!-- ======================= ORDERS ======================= -->
-        <div id="orders" class="endpoint-box">
-            <span class="method POST">POST</span>
-            <span class="endpoint-url">/api/orders</span>
+            <!-- ======================= ORDERS ======================= -->
+            <div id="orders" class="endpoint-box">
+                <span class="method POST">POST</span>
+                <span class="endpoint-url">/api/orders</span>
 
-            <p class="summary">Create an order using a valid hold.</p>
+                <p class="summary">Create an order using a valid hold.</p>
 
-            <button class="copy-btn">Copy</button>
-            <pre><code class="json">
+                <button class="copy-btn">Copy</button>
+                <pre><code class="json">
 POST /api/orders
             </code></pre>
 
-            <pre><code class="json">
+                <pre><code class="json">
 {
   "id": 99,
   "product_id": 1,
@@ -232,23 +238,23 @@ POST /api/orders
   "status": "pending"
 }
             </code></pre>
-        </div>
+            </div>
 
 
 
-        <!-- ======================= WEBHOOK ======================= -->
-        <div id="webhook" class="endpoint-box">
-            <span class="method POST">POST</span>
-            <span class="endpoint-url">/api/payments/webhook</span>
+            <!-- ======================= WEBHOOK ======================= -->
+            <div id="webhook" class="endpoint-box">
+                <span class="method POST">POST</span>
+                <span class="endpoint-url">/api/payments/webhook</span>
 
-            <p class="summary">Idempotent payment webhook endpoint.</p>
+                <p class="summary">Idempotent payment webhook endpoint.</p>
 
-            <button class="copy-btn">Copy</button>
-            <pre><code class="json">
+                <button class="copy-btn">Copy</button>
+                <pre><code class="json">
 POST /api/payments/webhook
             </code></pre>
 
-            <pre><code class="json">
+                <pre><code class="json">
 {
   "idempotency_key": "abcd-1234-xyz",
   "order_id": 99,
@@ -256,10 +262,11 @@ POST /api/payments/webhook
   "payload": { ... }
 }
             </code></pre>
-        </div>
+            </div>
 
+        </div>
     </div>
-</div>
 
 </body>
+
 </html>
