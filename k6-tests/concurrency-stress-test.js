@@ -9,7 +9,7 @@ const successfulHolds = new Counter('successful_holds');
 const failedHolds = new Counter('failed_holds');
 const oversellDetected = new Rate('oversell_detected');
 
-const BASE_URL = __ENV.BASE_URL || 'http://localhost:8000';
+const BASE_URL = __ENV.BASE_URL || 'http://127.0.0.1:8000';
 const PRODUCT_ID = 1;
 
 export const options = {

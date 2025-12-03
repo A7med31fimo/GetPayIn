@@ -27,7 +27,7 @@ return new class extends Migration
             $table->foreignId('product_id')->constrained()->onDelete('cascade');
             $table->unsignedInteger('quantity');
             $table->timestamp('expires_at');
-            $table->boolean('is_paid')->default(false);
+            $table->boolean('consumed')->default(false);
             $table->timestamps();
             
             $table->index(['expires_at', 'is_paid']);//for efficient querying of expired holds
